@@ -7,15 +7,20 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>Todoリスト</h1>
-    <div class="input-container">
-      <input type="text" id="input" placeholder="新しいタスクを入力" />
-      <button id="add-btn">追加</button>
+    <div id="app">
+      <h1>Todoリスト</h1>
+      <div class="input-container">
+        <input type="text" id="input" placeholder="新しいタスクを入力" />
+        <button id="add-btn">追加</button>
+      </div>
+      <ul id="todo-list">
+        <!-- Todoアイテムがここに追加されます -->
+      </ul>
     </div>
-    <ul id="todo-list">
-      <!-- Todoアイテムがここに追加されます -->
-    </ul>
 
+    <script src="components/TodoItem.js"></script>
+    <script src="components/TodoList.js"></script>
+    <script src="components/TodoInput.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
