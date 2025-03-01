@@ -3,14 +3,37 @@ class TodoList {
     this.container = document.getElementById(containerId);
     this.todos = [];
     this.nextId = 1;
+    this.onEditCallback = null;
   }
 
-  addTodo(text) {
-    const todo = new TodoItem(text, this.nextId++);
+  setEditCallback(callback) {
+    this.onEditCallback = callback;
+  }
+
+  addTodo(text, priority) {
+    const todo = new TodoItem(text, this.nextId++, priority);
     todo.onDelete = (id) => this.deleteTodo(id);
+    todo.onEdit = (todoItem) => {
+      if (this.onEditCallback) {
+        this.onEditCallback(todoItem);
+      }
+    };
 
     this.todos.push(todo);
-    this.container.appendChild(todo.render());
+    this.sortAndRenderTodos();
+  }
+
+  sortAndRenderTodos() {
+    // 重要度でソート（高い順）
+    this.todos.sort((a, b) => b.getPriorityValue() - a.getPriorityValue());
+
+    // コンテナをクリア
+    this.container.innerHTML = "";
+
+    // ソートされたTodoを再描画
+    this.todos.forEach((todo) => {
+      this.container.appendChild(todo.render());
+    });
   }
 
   deleteTodo(id) {
@@ -21,6 +44,18 @@ class TodoList {
       if (todoElement) {
         todoElement.remove();
       }
+    }
+  }
+
+  getTodoById(id) {
+    return this.todos.find((todo) => todo.id === id);
+  }
+
+  updateTodo(id, text, priority) {
+    const todo = this.getTodoById(id);
+    if (todo) {
+      todo.update(text, priority);
+      this.sortAndRenderTodos();
     }
   }
 }
