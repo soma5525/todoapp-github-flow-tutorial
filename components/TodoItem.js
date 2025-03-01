@@ -5,6 +5,7 @@ class TodoItem {
     this.priority = priority; // 'high', 'medium', 'low'
     this.completed = false;
     this.element = null;
+    this.onEdit = null; // 編集コールバック
   }
 
   getPriorityValue() {
@@ -38,6 +39,7 @@ class TodoItem {
         }" title="重要度: ${this.getPriorityLabel()}"></span>
         <span class="todo-text">${this.text}</span>
         <div class="todo-actions">
+          <button class="edit-btn">編集</button>
           <button class="complete-btn">${
             this.completed ? "元に戻す" : "完了"
           }</button>
@@ -55,6 +57,26 @@ class TodoItem {
       this.toggleComplete();
     });
 
+    li.querySelector(".edit-btn").addEventListener("click", () => {
+      if (this.onEdit) {
+        this.onEdit(this);
+      }
+    });
+
+    // テキストをクリックしても編集モードに
+    li.querySelector(".todo-text").addEventListener("click", () => {
+      if (this.onEdit) {
+        this.onEdit(this);
+      }
+    });
+
+    // 優先度インジケーターをクリックしても編集モードに
+    li.querySelector(".priority-indicator").addEventListener("click", () => {
+      if (this.onEdit) {
+        this.onEdit(this);
+      }
+    });
+
     this.element = li;
     return li;
   }
@@ -65,6 +87,19 @@ class TodoItem {
     this.element.querySelector(".complete-btn").textContent = this.completed
       ? "元に戻す"
       : "完了";
+  }
+
+  update(text, priority) {
+    this.text = text;
+    this.priority = priority;
+
+    // 表示を更新
+    const textElement = this.element.querySelector(".todo-text");
+    textElement.textContent = text;
+
+    const priorityIndicator = this.element.querySelector(".priority-indicator");
+    priorityIndicator.className = `priority-indicator priority-${priority}`;
+    priorityIndicator.title = `重要度: ${this.getPriorityLabel()}`;
   }
 
   onDelete(id) {

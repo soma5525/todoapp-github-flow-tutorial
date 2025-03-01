@@ -26,10 +26,34 @@
       </ul>
     </div>
 
+    <!-- 編集モーダル -->
+    <div id="edit-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Todoを編集</h3>
+          <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="edit-input" class="edit-input" />
+          <div class="edit-priority-selector priority-selector">
+            <span class="priority-label">重要度:</span>
+            <button class="priority-btn" data-priority="high">高</button>
+            <button class="priority-btn" data-priority="medium">中</button>
+            <button class="priority-btn" data-priority="low">低</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="cancel-btn">キャンセル</button>
+          <button id="save-btn">保存</button>
+        </div>
+      </div>
+    </div>
+
     <script src="components/TodoItem.js"></script>
     <script src="components/TodoList.js"></script>
     <script src="components/TodoInput.js"></script>
     <script src="components/PrioritySelector.js"></script>
+    <script src="components/EditModal.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
