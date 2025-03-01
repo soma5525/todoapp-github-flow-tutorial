@@ -5,12 +5,25 @@ class TodoList {
     this.nextId = 1;
   }
 
-  addTodo(text) {
-    const todo = new TodoItem(text, this.nextId++);
+  addTodo(text, priority) {
+    const todo = new TodoItem(text, this.nextId++, priority);
     todo.onDelete = (id) => this.deleteTodo(id);
 
     this.todos.push(todo);
-    this.container.appendChild(todo.render());
+    this.sortAndRenderTodos();
+  }
+
+  sortAndRenderTodos() {
+    // 重要度でソート（高い順）
+    this.todos.sort((a, b) => b.getPriorityValue() - a.getPriorityValue());
+
+    // コンテナをクリア
+    this.container.innerHTML = "";
+
+    // ソートされたTodoを再描画
+    this.todos.forEach((todo) => {
+      this.container.appendChild(todo.render());
+    });
   }
 
   deleteTodo(id) {

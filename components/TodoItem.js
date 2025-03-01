@@ -1,9 +1,29 @@
 class TodoItem {
-  constructor(text, id) {
+  constructor(text, id, priority) {
     this.text = text;
     this.id = id;
+    this.priority = priority; // 'high', 'medium', 'low'
     this.completed = false;
     this.element = null;
+  }
+
+  getPriorityValue() {
+    // 重要度を数値に変換（ソート用）
+    const priorityValues = {
+      high: 3,
+      medium: 2,
+      low: 1,
+    };
+    return priorityValues[this.priority] || 1;
+  }
+
+  getPriorityLabel() {
+    const priorityLabels = {
+      high: "高",
+      medium: "中",
+      low: "低",
+    };
+    return priorityLabels[this.priority] || "低";
   }
 
   render() {
@@ -13,6 +33,9 @@ class TodoItem {
 
     li.innerHTML = `
       <div class="todo-item">
+        <span class="priority-indicator priority-${
+          this.priority
+        }" title="重要度: ${this.getPriorityLabel()}"></span>
         <span class="todo-text">${this.text}</span>
         <div class="todo-actions">
           <button class="complete-btn">${
